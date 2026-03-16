@@ -7,45 +7,52 @@ import { PrismaService } from '../prisma/prisma.service';
 export class BookmarksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreateBookmarkDto) {
+  create(dto: CreateBookmarkDto, userId: string) {
     return this.prisma.bookmark.create({
       data: {
         ...dto,
-        userId: 'admin',
+        userId,
       },
     });
   }
 
-  findAll() {
-    return this.prisma.bookmark.findMany();
+  findAll(userId: string) {
+    return this.prisma.bookmark.findMany({
+      where: {
+        userId,
+      },
+    });
   }
 
-  findOne(id: string) {
+  findOne(id: string, userId: string) {
     return this.prisma.bookmark.findUnique({
       where: {
         id,
+        userId,
       },
     });
   }
 
-  update(id: string, dto: UpdateBookmarkDto) {
+  update(id: string, dto: UpdateBookmarkDto, userId: string) {
     return this.prisma.bookmark.update({
       where: {
         id,
+        userId,
       },
       data: dto,
     });
   }
 
-  remove(id: string) {
+  remove(id: string, userId: string) {
     return this.prisma.bookmark.delete({
       where: {
         id,
+        userId,
       },
     });
   }
 
-async updateFavorite(id: string) {
+async updateFavorite(id: string, userId: string) {
   // 1. 현재 값 조회
   const bookmark = await this.prisma.bookmark.findUnique({
     where: { id },
@@ -55,7 +62,7 @@ async updateFavorite(id: string) {
 
   // 2. 현재 값을 반전해서 업데이트
   return this.prisma.bookmark.update({
-    where: { id },
+    where: { id, userId },
     data: {
       isFavorite: !bookmark.isFavorite,
     },
