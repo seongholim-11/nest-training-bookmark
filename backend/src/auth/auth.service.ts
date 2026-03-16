@@ -1,15 +1,22 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { RegisterAuthDto } from './dto/register.dto';
 import { LoginAuthDto } from './dto/login.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { StringValue } from 'ms';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   /**
@@ -39,7 +46,6 @@ export class AuthService {
       where: { email: dto.email },
     });
 
-    // 보안을 위해 유저가 없거나 비밀번호가 틀린 경우 동일한 예외를 던집니다.
     if (!user) {
       throw new UnauthorizedException('이메일 또는 비밀번호가 잘못되었습니다.');
     }
@@ -52,23 +58,85 @@ export class AuthService {
       throw new UnauthorizedException('이메일 또는 비밀번호가 잘못되었습니다.');
     }
 
-    // 이제 ID와 Email을 같이 보냅니다.
-    return this.signToken(user.id, user.email);
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRefreshTokenHash(user.id, tokens.refresh_token);
+
+    return tokens;
   }
 
-  /**
-   * [Phase 2] JWT 토큰 발행 헬퍼 함수
-   * 유저의 고유 ID(sub)와 이메일을 페이로드(Payload)에 담아 서명합니다.
-   */
-  async signToken(userId: string, email: string) {
-    const payload = {
-      sub: userId, // 표준 규격 준수
-      email,
-    };
-    const token = await this.jwtService.signAsync(payload);
+  async logout(userId: string) {
+    await this.prisma.user.updateMany({
+      where: {
+        id: userId,
+        hashedRt: {
+          not: null,
+        },
+      },
+      data: {
+        hashedRt: null,
+      },
+    });
+  }
+
+  async refreshTokens(userId: string, rt: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user || !user.hashedRt) throw new ForbiddenException('Access Denied');
+
+    const rtMatches = await bcrypt.compare(rt, user.hashedRt);
+    if (!rtMatches) throw new ForbiddenException('Access Denied');
+
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRefreshTokenHash(user.id, tokens.refresh_token);
+
+    return tokens;
+  }
+
+  async updateRefreshTokenHash(userId: string, rt: string) {
+    const hash = await bcrypt.hash(rt, 10);
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hashedRt: hash,
+      },
+    });
+  }
+
+  async getTokens(userId: string, email: string) {
+    const [at, rt] = await Promise.all([
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          email,
+        },
+        {
+          secret: this.configService.getOrThrow<string>('JWT_SECRET'),
+          expiresIn: this.configService.getOrThrow<StringValue>('JWT_EXPIRES_IN'),
+        },
+      ),
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          email,
+        },
+        {
+          secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+          expiresIn: this.configService.getOrThrow<StringValue>(
+            'JWT_REFRESH_EXPIRATION_TIME',
+          ),
+        },
+      ),
+    ]);
 
     return {
-      access_token: token,
+      access_token: at,
+      refresh_token: rt,
     };
   }
+
 }

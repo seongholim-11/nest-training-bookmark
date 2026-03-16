@@ -52,6 +52,7 @@ describe('Markly Auth and Bookmark (e2e)', () => {
   };
 
   let tokenA: string;
+  let refreshTokenA: string;
   let tokenB: string;
   let bookmarkAId: string;
 
@@ -67,14 +68,33 @@ describe('Markly Auth and Bookmark (e2e)', () => {
         });
     });
 
-    it('should login User A and return token', () => {
+    it('should login User A and return tokens', () => {
       return request(app.getHttpServer())
         .post('/auth/login')
         .send({ email: dtoUserA.email, password: dtoUserA.password })
-        .expect(201)
+        .expect(200)
         .expect((res) => {
           expect(res.body.access_token).toBeDefined();
-          tokenA = res.body.access_token; // 다음 테스트에 사용할 토큰
+          expect(res.body.refresh_token).toBeDefined();
+          tokenA = res.body.access_token;
+          refreshTokenA = res.body.refresh_token;
+        });
+    });
+
+    it('should refresh tokens for User A', async () => {
+      // iat (Issued At)이 달라지도록 1초 대기
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      return request(app.getHttpServer())
+        .post('/auth/refresh')
+        .set('Authorization', `Bearer ${refreshTokenA}`)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.access_token).toBeDefined();
+          expect(res.body.refresh_token).toBeDefined();
+          expect(res.body.access_token).not.toEqual(tokenA);
+          tokenA = res.body.access_token;
+          refreshTokenA = res.body.refresh_token;
         });
     });
 
@@ -83,9 +103,32 @@ describe('Markly Auth and Bookmark (e2e)', () => {
       const res = await request(app.getHttpServer())
         .post('/auth/login')
         .send({ email: dtoUserB.email, password: dtoUserB.password })
-        .expect(201);
+        .expect(200);
       
       tokenB = res.body.access_token;
+    });
+
+    it('should logout User A', () => {
+      return request(app.getHttpServer())
+        .post('/auth/logout')
+        .set('Authorization', `Bearer ${tokenA}`)
+        .expect(200);
+    });
+
+    it('should fail to refresh for User A after logout', () => {
+      return request(app.getHttpServer())
+        .post('/auth/refresh')
+        .set('Authorization', `Bearer ${refreshTokenA}`)
+        .expect(403);
+    });
+
+    // User A를 다시 로그인시켜 이후 북마크 테스트를 진행할 수 있게 토큰 갱신
+    it('should login User A again', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email: dtoUserA.email, password: dtoUserA.password })
+        .expect(200);
+      tokenA = res.body.access_token;
     });
   });
 

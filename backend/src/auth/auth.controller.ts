@@ -1,15 +1,17 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterAuthDto } from './dto/register.dto';
 import { LoginAuthDto } from './dto/login.dto';
+import { GetUser } from './decorator/get-user.decorator';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { RtGuard } from './guards/rt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -29,7 +31,25 @@ export class AuthController {
    * 이메일과 비밀번호를 검증하고 성공 시 JWT Access Token을 발구합니다.
    */
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   login(@Body() dto: LoginAuthDto) {
     return this.authService.login(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  logout(@GetUser('id') userId: string) {
+    return this.authService.logout(userId);
+  }
+
+  @UseGuards(RtGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  refresh(
+    @GetUser('sub') userId: string,
+    @GetUser('refreshToken') refreshToken: string,
+  ) {
+    return this.authService.refreshTokens(userId, refreshToken);
   }
 }
