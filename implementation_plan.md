@@ -1,8 +1,11 @@
 # Markly (개인 북마크/링크 저장소) 구현 100단계 마일스톤
 
-이 문서는 Markly 프로젝트의 전체 구현 과정을 100단계로 세분화한 마일스톤입니다. 각 단계를 완료할 때마다 체크박스를 표시해 진행도를 관리합니다.
+이 문서는 Markly 프로젝트의 전체 구현 과정을 100단계로 세분화한 마일스톤입니다. 각 단계는 Git 브랜치별로 그룹화되어 있으며, 완료 시 체크박스를 표시합니다.
 
-## Phase 1: Prisma 스키마 & 기본 북마크 CRUD (완료됨)
+---
+
+## 🟢 [Completed] Phase 1: Foundation & Basics
+### Branch: `feat/p1-prisma-and-bookmarks`
 - [x] 1. NestJS 백엔드 프로젝트 초기화
 - [x] 2. Prisma 설치 및 데이터베이스 연결 설정
 - [x] 3. Prisma 스키마 - `User` 모델 정의
@@ -12,17 +15,20 @@
 - [x] 7. 데이터베이스에 Prisma Migration 적용
 - [x] 8. Prisma Client 생성
 - [x] 9. `PrismaModule` 및 `PrismaService` 생성
-- [ ] 10. `BookmarksModule`, `Controller`, `Service` 생성
-- [ ] 11. `CreateBookmarkDto` 정의
-- [ ] 12. `PartialType`을 활용한 `UpdateBookmarkDto` 정의
-- [ ] 13. 북마크 CRUD - POST `/bookmarks` (생성) 구현
-- [ ] 14. 북마크 CRUD - GET `/bookmarks` (목록 조회) 구현
-- [ ] 15. 북마크 CRUD - GET `/bookmarks/:id` (단건 조회) 구현
-- [ ] 16. 북마크 CRUD - PATCH `/bookmarks/:id` (수정) 구현
-- [ ] 17. 북마크 CRUD - DELETE `/bookmarks/:id` (삭제) 구현
-- [ ] 18. 북마크 CRUD - PATCH `/bookmarks/:id/favorite` (즐겨찾기 토글) 구현
+- [x] 10. `BookmarksModule`, `Controller`, `Service` 생성
+- [x] 11. `CreateBookmarkDto` 정의
+- [x] 12. `PartialType`을 활용한 `UpdateBookmarkDto` 정의
+- [x] 13. 북마크 CRUD - POST `/bookmarks` (생성) 구현
+- [x] 14. 북마크 CRUD - GET `/bookmarks` (목록 조회) 구현
+- [x] 15. 북마크 CRUD - GET `/bookmarks/:id` (단건 조회) 구현
+- [x] 16. 북마크 CRUD - PATCH `/bookmarks/:id` (수정) 구현
+- [x] 17. 북마크 CRUD - DELETE `/bookmarks/:id` (삭제) 구현
+- [x] 18. 북마크 CRUD - PATCH `/bookmarks/:id/favorite` (즐겨찾기 토글) 구현
 
-## Phase 2: 사용자 인증 (Authentication) 및 보안
+---
+
+## 🔵 Phase 2: Security & Authentication
+### Branch: `feat/p2-auth-system`
 - [ ] 19. `@nestjs/jwt`, `@nestjs/passport`, `bcrypt`, `passport-jwt` 패키지 설치
 - [ ] 20. `AuthModule`, `Controller`, `Service` 생성
 - [ ] 21. `bcrypt`를 활용한 비밀번호 해싱 유틸리티 구현
@@ -44,7 +50,10 @@
 - [ ] 37. Refresh Token을 데이터베이스에 저장/검증하도록 User 모델 로직 업데이트
 - [ ] 38. POST `/auth/logout` (Refresh Token 무효화) 엔드포인트 생성
 
-## Phase 3: 태그 시스템 & 북마크-태그 N:M 연결
+---
+
+## 🟡 Phase 3: Tags & Relationships
+### Branch: `feat/p3-tag-system`
 - [ ] 39. `TagsModule`, `Controller`, `Service` 생성
 - [ ] 40. `CreateTagDto`, `UpdateTagDto` 정의
 - [ ] 41. 태그 CRUD - POST `/tags` 구현
@@ -63,7 +72,10 @@
 - [ ] 54. GET `/bookmarks`에 즐겨찾기 필터링(`?favorite=true`) 기능 추가
 - [ ] 55. 태그 삭제 시 연결된 북마크와의 관계(BookmarkTag)가 정상 캐스케이드(Cascade) 삭제되는지 검증
 
-## Phase 4: 전역 예외 처리 & 파이프 & 인터셉터
+---
+
+## 🟠 Phase 4: Refinement & Validation
+### Branch: `feat/p4-global-refinement`
 - [ ] 56. `class-validator` 및 `class-transformer` 모듈 체크
 - [ ] 57. 전역 DTO 입력을 검증하는 `ValidationPipe` 설정 (`main.ts`)
 - [ ] 58. 전역 에러 포맷을 통일할 `HttpExceptionFilter` 생성
@@ -75,7 +87,10 @@
 - [ ] 64. 인증 관련 DTO의 유효성 검사 규칙 (이메일, 비밀번호 정책 등) 고도화
 - [ ] 65. 잘못된 라우트 호출시 404 및 데이터 검증 실패시 400 에러 포맷 전역 동작 테스트
 
-## Phase 5: Next.js 프론트엔드 환경 및 기본 구조
+---
+
+## 🟣 Phase 5: Next.js Boilerplate & Auth UI
+### Branch: `feat/p5-next-boilerplate`
 - [ ] 66. Next.js 14 App Router 프로젝트 스캐폴딩 생성
 - [ ] 67. Tailwind CSS, Zustand, TanStack Query, 전역 설정, 및 Zod 설치
 - [ ] 68. 환경 변수 설정 (`.env.local` - API Base URL)
@@ -90,7 +105,10 @@
 - [ ] 77. 인증되지 않은 사용자를 리다이렉트하는 미들웨어(Middleware) 혹은 HOC 구현
 - [ ] 78. 메인 애플리케이션 공통 Layout (사이드바, 헤더, 네비게이션) 구조 설계
 
-## Phase 6: Next.js 프론트엔드 핵심 기능
+---
+
+## 🔴 Phase 6: Next.js Features & UX
+### Branch: `feat/p6-next-logic`
 - [ ] 79. 전체 북마크 목록 페이지 대시보드 UI 구현
 - [ ] 80. TanStack Query를 이용해 GET `/bookmarks` 호출 및 렌더링
 - [ ] 81. 개별 북마크 카드/리스트 아이템 컴포넌트 디자인 및 구현
@@ -106,7 +124,10 @@
 - [ ] 91. 검색바 구현 및 상태(Zustand)에 검색어 동기화, 목록 갱신 연동
 - [ ] 92. 태그 클릭 또는 즐겨찾기 필터 버튼 클릭 시 복합 필터 뷰 갱신 처리
 
-## Phase 7: 보안, 퍼포먼스 & 마무리 작업
+---
+
+## 🟤 Phase 7: Optimization & Deployment
+### Branch: `feat/p7-final-polish`
 - [ ] 93. 백엔드에 보안 패키지 `helmet`과 `cors` 설치 및 적용
 - [ ] 94. 보안 강화를 위해 특정 오리진만 허용하도록 정교한 CORS 설정
 - [ ] 95. 악성 요청 방지 및 API 사용량 제한을 위한 `@nestjs/throttler` 모듈 초기화

@@ -12,6 +12,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// -- [Phase 1: 사용자 스키마] --
+// 사용자의 인증 정보와 연결된 전체 데이터(북마크, 태그) 생명주기를 관장하는 핵심 모델
 model User {
   id           String     @id @default(uuid())
   email        String     @unique
@@ -23,6 +25,8 @@ model User {
   updatedAt    DateTime   @updatedAt
 }
 
+// -- [Phase 1: 북마크 스키마] --
+// 핵심 과제: 사용자가 저장하는 URL, 메타데이터, 그리고 즐겨찾기 상태를 관리합니다.
 model Bookmark {
   id          String        @id @default(uuid())
   url         String
@@ -37,6 +41,8 @@ model Bookmark {
   updatedAt   DateTime      @updatedAt
 }
 
+// -- [Phase 1: 태그 스키마] --
+// 북마크를 그룹화하고 분류하기 위한 사용자 생성 태그 정보입니다.
 model Tag {
   id        String        @id @default(uuid())
   name      String
@@ -49,6 +55,9 @@ model Tag {
   @@unique([userId, name])  // 유저별 태그명 중복 방지
 }
 
+// -- [Phase 1: 다대다 관계 테이블 (Join Table)] --
+// Prisma에서 자동으로 제공하는 암시적 M:N 대신 명시적 제어가 가능하도록 만든 연결 테이블
+// Bookmark와 Tag 사이의 1:N 릴레이션을 한데 묶어 최종 다대다(M:N) 관계로 풀어줍니다.
 model BookmarkTag {
   bookmark   Bookmark @relation(fields: [bookmarkId], references: [id], onDelete: Cascade)
   bookmarkId String
