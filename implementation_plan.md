@@ -29,26 +29,27 @@
 
 ## 🔵 Phase 2: Security & Authentication
 ### Branch: `feat/p2-auth-system`
-- [ ] 19. `@nestjs/jwt`, `@nestjs/passport`, `bcrypt`, `passport-jwt` 패키지 설치
-- [ ] 20. `AuthModule`, `Controller`, `Service` 생성
-- [ ] 21. `bcrypt`를 활용한 비밀번호 해싱 유틸리티 구현
-- [ ] 22. `RegisterDto` 정의 (class-validator)
-- [ ] 23. `AuthService`에 회원가입 로직 구현
-- [ ] 24. POST `/auth/register` 엔드포인트 생성
-- [ ] 25. `LoginDto` 정의
-- [ ] 26. `AuthService`에 사용자 인증 및 로그인 로직 구현
-- [ ] 27. `@nestjs/config` 글로벌 설정 및 JWT Secret, 만료 시간 환경 변수 처리
-- [ ] 28. Access Token (15분) 발급 로직 구현
-- [ ] 29. Refresh Token (7일) 발급 로직 구현
-- [ ] 30. POST `/auth/login` 엔드포인트 생성
-- [ ] 31. `JwtStrategy` (Access Token 검증) 구현
-- [ ] 32. `JwtAuthGuard` 생성
-- [ ] 33. `BookmarksController`의 모든 라우트에 `JwtAuthGuard` 적용
-- [ ] 34. 북마크 CRUD 로직에서 인증된 사용자(`req.user.id`) 기준으로만 동작하도록 수정
-- [ ] 35. `JwtRefreshStrategy` 구현
-- [ ] 36. POST `/auth/refresh` (Access Token 재발급) 엔드포인트 생성
-- [ ] 37. Refresh Token을 데이터베이스에 저장/검증하도록 User 모델 로직 업데이트
-- [ ] 38. POST `/auth/logout` (Refresh Token 무효화) 엔드포인트 생성
+- [x] 19. `@nestjs/jwt`, `@nestjs/passport`, `bcrypt`, `passport-jwt` 패키지 설치
+- [x] 20. `AuthModule`, `Controller`, `Service` 생성
+- [x] 21. `bcrypt`를 활용한 비밀번호 해싱 유틸리티 구현
+- [x] 22. `RegisterDto` 정의 (class-validator)
+- [x] 23. `AuthService`에 회원가입 로직 구현
+- [x] 24. POST `/auth/register` 엔드포인트 생성
+- [x] 25. `LoginDto` 정의
+- [x] 26. `AuthService`에 사용자 인증 및 로그인 로직 구현
+- [x] 27. `@nestjs/config` 글로벌 설정 및 JWT Secret, 만료 시간 환경 변수 처리
+- [x] 28. Access Token (15분) 발급 로직 구현
+- [x] 29. Refresh Token (7일) 발급 로직 구현
+- [x] 30. POST `/auth/login` 엔드포인트 생성
+- [x] 31. `JwtStrategy` (Access Token 검증) 구현
+- [x] 32. `JwtAuthGuard` 생성
+- [x] 33. `BookmarksController`의 모든 라우트에 `JwtAuthGuard` 적용
+- [x] 34. 북마크 CRUD 로직에서 인증된 사용자(`req.user.id`) 기준으로만 동작하도록 수정
+- [x] 35. `JwtRefreshStrategy` 구현
+- [x] 36. POST `/auth/refresh` (Access Token 재발급) 엔드포인트 생성
+- [x] 37. Refresh Token을 데이터베이스에 저장/검증하도록 User 모델 로직 업데이트
+- [x] 38. POST `/auth/logout` (Refresh Token 무효화) 엔드포인트 생성
+- [x] 38-1. **(완료)** Jest를 활용한 인증, 북마크 소유권 격리 및 리프레시 토큰 E2E 테스트 구현
 
 ---
 

@@ -4,8 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -19,6 +18,7 @@ model User {
   email        String     @unique
   passwordHash String
   nickname     String
+  hashedRt     String?    // 추가: 해싱된 리프레시 토큰 저장
   bookmarks    Bookmark[]
   tags         Tag[]
   createdAt    DateTime   @default(now())
