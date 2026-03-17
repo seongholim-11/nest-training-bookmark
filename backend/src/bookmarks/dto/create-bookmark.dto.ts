@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsArray } from 'class-validator';
 
 export class CreateBookmarkDto {
   @IsString()
@@ -20,4 +20,9 @@ export class CreateBookmarkDto {
   @IsBoolean()
   @IsOptional()
   isFavorite?: boolean;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  tagIds?: string[];
 }

@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { BookmarksService } from './bookmarks.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
@@ -27,8 +28,17 @@ export class BookmarksController {
   }
 
   @Get()
-  findAll(@GetUser('id') userId: string) {  
-    return this.bookmarksService.findAll(userId); 
+  findAll(
+    @GetUser('id') userId: string,
+    @Query('tag') tag?: string,
+    @Query('q') query?: string,
+    @Query('favorite') favorite?: string,
+  ) {
+    return this.bookmarksService.findAll(userId, {
+      tag,
+      query,
+      favorite: favorite === 'true',
+    });
   }
 
   @Get(':id')

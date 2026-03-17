@@ -1,0 +1,33 @@
+  console.log
+    {
+      email: 'tagtest_1773730816726@test.com',
+      password: 'password123',
+      nickname: 'TagTester'
+    }
+
+      at AuthService.register (../src/auth/auth.service.ts:27:13)
+
+PASS test/phase3.e2e-spec.ts (5.349 s)
+  Phase 3: Tags System (e2e)
+    Setup User
+      √ should register and login (682 ms)
+    Tags CRUD
+      √ should create tags (27 ms)
+      √ should fail to create duplicate tag name for same user (6 ms)
+      √ should list user tags (7 ms)
+    Bookmark with Tags
+      √ should create bookmark with multiple tags (20 ms)
+      √ should list bookmark including tag details (16 ms)
+    Advanced Filtering
+      √ filter by tag name (11 ms)
+      √ filter by search query (q) (14 ms)
+      √ filter by favorite (16 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        5.645 s
+Ran all test suites matching test/phase3.e2e-spec.ts.
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.
