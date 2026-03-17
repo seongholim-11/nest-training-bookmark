@@ -26,16 +26,17 @@ export class AuthController {
     return this.authService.register(dto);
   }
 
-  /**
-   * [Phase 2] 로그인 엔드포인트
-   * 이메일과 비밀번호를 검증하고 성공 시 JWT Access Token을 발구합니다.
-   */
   @Post('login')
   @HttpCode(HttpStatus.OK)
   login(@Body() dto: LoginAuthDto) {
     return this.authService.login(dto);
   }
 
+  /**
+   * [Phase 2] 로그아웃 엔드포인트
+   * 현재 로그인된 사용자의 리프레시 토큰을 무효화합니다.
+   * Access Token 검증(@UseGuards(JwtAuthGuard))이 필요합니다.
+   */
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
@@ -43,6 +44,11 @@ export class AuthController {
     return this.authService.logout(userId);
   }
 
+  /**
+   * [Phase 2] 토큰 재발급 엔드포인트
+   * 유효한 리프레시 토큰을 통해 새로운 토큰 쌍(AT, RT)을 발급받습니다.
+   * Refresh Token 전용 가드(@UseGuards(RtGuard))를 사용합니다.
+   */
   @UseGuards(RtGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
