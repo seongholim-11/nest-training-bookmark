@@ -17,6 +17,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { GetUser } from '../auth/decorator/get-user.decorator';
 
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+
+@ApiTags('Bookmarks')
+@ApiBearerAuth('access-token')
 @UseGuards(JwtAuthGuard) // 이 컨트롤러 전체에 적용
 @Controller('bookmarks')
 export class BookmarksController {

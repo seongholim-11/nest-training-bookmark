@@ -16,6 +16,10 @@ import { GetUser } from '../auth/decorator/get-user.decorator';
 import { Query } from '@nestjs/common';
 import { Request } from 'express';
 
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+
+@ApiTags('Tags')
+@ApiBearerAuth('access-token')
 @UseGuards(JwtAuthGuard) // 이 컨트롤러 전체에 적용
 @Controller('tags')
 export class TagsController {
