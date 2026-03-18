@@ -53,32 +53,33 @@
 
 ---
 
-## 🟡 Phase 3: Tags & Relationships
+## 🟢 [Completed] Phase 3: Tags & Relationships
 ### Branch: `feat/p3-tag-system`
-- [ ] 39. `TagsModule`, `Controller`, `Service` 생성
-- [ ] 40. `CreateTagDto`, `UpdateTagDto` 정의
-- [ ] 41. 태그 CRUD - POST `/tags` 구현
-- [ ] 42. 태그 이름 유저별 중복 방지 예외 처리 구현
-- [ ] 43. 태그 CRUD - GET `/tags` 구현
-- [ ] 44. 태그 CRUD - PATCH `/tags/:id` 구현
-- [ ] 45. 태그 CRUD - DELETE `/tags/:id` 구현
-- [ ] 46. `TagsController` 밋 모든 로직에 `JwtAuthGuard` 및 User ID 검증 적용
-- [ ] 47. 북마크 생성 DTO를 업데이트해 태그 목록(ID 또는 이름)을 받도록 수정
-- [ ] 48. 북마크 생성 시 `prisma.$transaction`을 활용하여 북마크와 태그 동시 연결 구현
-- [ ] 49. GET `/bookmarks`에 태그 정보를 포함(`include: { tags: ... }`)하여 반환
-- [ ] 50. GET `/bookmarks/:id`에 태그 정보 포함하여 반환
-- [ ] 51. PATCH `/bookmarks/:id`에 태그 연결 추가/삭제 기능을 트랜잭션으로 구현
-- [ ] 52. GET `/bookmarks`에 태그 필터링(`?tag=`) 기능 추가
-- [ ] 53. GET `/bookmarks`에 검색어 필터링(`?q=`) 기능 추가
-- [ ] 54. GET `/bookmarks`에 즐겨찾기 필터링(`?favorite=true`) 기능 추가
-- [ ] 55. 태그 삭제 시 연결된 북마크와의 관계(BookmarkTag)가 정상 캐스케이드(Cascade) 삭제되는지 검증
+- [x] 39. `TagsModule`, `Controller`, `Service` 생성
+- [x] 40. `CreateTagDto`, `UpdateTagDto` 정의
+- [x] 41. 태그 CRUD - POST `/tags` 구현
+- [x] 42. 태그 이름 유저별 중복 방지 예외 처리 구현
+- [x] 43. 태그 CRUD - GET `/tags` 구현
+- [x] 44. 태그 CRUD - PATCH `/tags/:id` 구현
+- [x] 45. 태그 CRUD - DELETE `/tags/:id` 구현
+- [x] 46. `TagsController` 및 모든 로직에 `JwtAuthGuard` 및 User ID 검증 적용
+- [x] 47. 북마크 생성 DTO를 업데이트해 태그 목록(ID 또는 이름)을 받도록 수정
+- [x] 48. 북마크 생성 시 `prisma.bookmarkTag.createMany`를 활용하여 태그 동시 연결 구현
+- [x] 49. GET `/bookmarks`에 태그 정보를 포함(`include: { tags: ... }`)하여 반환
+- [ ] 50. GET `/bookmarks/:id`에 태그 정보 포함하여 반환 (진행 예정)
+- [x] 51. PATCH `/bookmarks/:id`에 태그 연결 추가/삭제 기능을 트랜잭션으로 구현
+- [x] 52. GET `/bookmarks`에 태그 필터링(`?tag=`) 기능 추가
+- [x] 53. GET `/bookmarks`에 검색어 필터링(`?q=`) 기능 추가
+- [x] 54. GET `/bookmarks`에 즐겨찾기 필터링(`?favorite=true`) 기능 추가
+- [x] 55. 태그 삭제 시 연결된 북마크와의 관계(BookmarkTag)가 정상 캐스케이드(Cascade) 삭제되는지 검증 (Schema & E2E)
+- [x] 55-1. **(추가)** @nestjs/swagger를 이용한 API 자동 문서화 (Swagger UI) 구현
 
 ---
 
-## 🟠 Phase 4: Refinement & Validation
+## 🟡 [In Progress] Phase 4: Refinement & Validation
 ### Branch: `feat/p4-global-refinement`
-- [ ] 56. `class-validator` 및 `class-transformer` 모듈 체크
-- [ ] 57. 전역 DTO 입력을 검증하는 `ValidationPipe` 설정 (`main.ts`)
+- [x] 56. `class-validator` 및 `class-transformer` 패키지 설치 및 설정 확인
+- [x] 57. 전역 DTO 입력을 검증하는 `ValidationPipe` 설정 (`main.ts`)
 - [ ] 58. 전역 에러 포맷을 통일할 `HttpExceptionFilter` 생성
 - [ ] 59. `HttpExceptionFilter`를 애플리케이션 전역에 적용
 - [ ] 60. 응답 포맷을 통일(ex: `{ success: true, data: ... }`)하는 `ResponseInterceptor` 생성
