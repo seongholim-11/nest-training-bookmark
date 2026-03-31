@@ -93,6 +93,13 @@ export class BookmarksService {
         id,
         userId,
       },
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     });
   }
 
