@@ -82,8 +82,8 @@
 - [x] 57. 전역 DTO 입력을 검증하는 `ValidationPipe` 설정 (`main.ts`)
 - [x] 58. 전역 에러 포맷을 통일할 `HttpExceptionFilter` 생성
 - [x] 59. `HttpExceptionFilter`를 애플리케이션 전역에 적용
-- [ ] 60. 응답 포맷을 통일(ex: `{ success: true, data: ... }`)하는 `ResponseInterceptor` 생성
-- [ ] 61. `ResponseInterceptor`를 애플리케이션 전역에 적용
+- [x] 60. 응답 포맷을 통일(ex: `{ success: true, data: ... }`)하는 `ResponseInterceptor` 생성
+- [x] 61. `ResponseInterceptor`를 애플리케이션 전역에 적용
 - [ ] 62. 북마크 DTO(`create`, `update`) 검증 데코레이터 강화
 - [ ] 63. 태그 DTO 검증 데코레이터 및 타입 체크 강화
 - [ ] 64. 인증 관련 DTO의 유효성 검사 규칙 (이메일, 비밀번호 정책 등) 고도화
