@@ -66,7 +66,7 @@
 - [x] 47. 북마크 생성 DTO를 업데이트해 태그 목록(ID 또는 이름)을 받도록 수정
 - [x] 48. 북마크 생성 시 `prisma.bookmarkTag.createMany`를 활용하여 태그 동시 연결 구현
 - [x] 49. GET `/bookmarks`에 태그 정보를 포함(`include: { tags: ... }`)하여 반환
-- [ ] 50. GET `/bookmarks/:id`에 태그 정보 포함하여 반환 (진행 예정)
+- [x] 50. GET `/bookmarks/:id`에 태그 정보 포함하여 반환
 - [x] 51. PATCH `/bookmarks/:id`에 태그 연결 추가/삭제 기능을 트랜잭션으로 구현
 - [x] 52. GET `/bookmarks`에 태그 필터링(`?tag=`) 기능 추가
 - [x] 53. GET `/bookmarks`에 검색어 필터링(`?q=`) 기능 추가
@@ -80,8 +80,8 @@
 ### Branch: `feat/p4-global-refinement`
 - [x] 56. `class-validator` 및 `class-transformer` 패키지 설치 및 설정 확인
 - [x] 57. 전역 DTO 입력을 검증하는 `ValidationPipe` 설정 (`main.ts`)
-- [ ] 58. 전역 에러 포맷을 통일할 `HttpExceptionFilter` 생성
-- [ ] 59. `HttpExceptionFilter`를 애플리케이션 전역에 적용
+- [x] 58. 전역 에러 포맷을 통일할 `HttpExceptionFilter` 생성
+- [x] 59. `HttpExceptionFilter`를 애플리케이션 전역에 적용
 - [ ] 60. 응답 포맷을 통일(ex: `{ success: true, data: ... }`)하는 `ResponseInterceptor` 생성
 - [ ] 61. `ResponseInterceptor`를 애플리케이션 전역에 적용
 - [ ] 62. 북마크 DTO(`create`, `update`) 검증 데코레이터 강화
